@@ -1,56 +1,75 @@
-# Welcome to your Expo app 👋
+# Nourish 🥕
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A cross-platform recipe app that does more than list ingredients. For every dish it explains the
+**health benefits for kids and adults**, possible **side effects**, **allergens**, and **who should take
+care**: babies, toddlers, children, pregnancy, older adults, and people with diabetes, kidney disease,
+high blood pressure, blood-thinner medication or a sensitive gut. It also has a **7-day healthy kids'
+meal plan** for children under 15.
 
-## Get started
+Built with **Expo SDK 58, React Native, Expo Router and TypeScript**. Recipes come from
+[TheMealDB](https://www.themealdb.com/).
 
-1. Install dependencies
+## Features
 
-   ```bash
-   npm install
-   ```
+| | |
+| --- | --- |
+| 🍽️ **Discover** | A random featured recipe, categories, and a grid of recipe cards |
+| 🔎 **Search** | By dish name or by ingredient ("what's in my fridge?"), with debounced live results |
+| ❤️ **Health insights** | Each recipe is checked against a curated ingredient health guide (~75 entries, covering about 90% of TheMealDB's ingredients) |
+| 🧒 **Kids' kitchen** | Age-band guidance (1–3, 4–8, 9–14), a 7-day meal plan of real recipes with kid-friendly tweaks, "superfoods", and golden rules |
+| 🩺 **Health profile** | Pick the people you cook for and any allergies; recipes then show personal warnings |
+| ♥ **Favourites** | Saved on the device, so they still work offline |
+| 🛒 **Shopping list** | Add a recipe's ingredients, tick them off, and clear what's done |
+| 👩‍🍳 **Cooking mode** | Full-screen steps, the screen stays awake, and timers are detected automatically from the text ("bake 35 minutes") |
+| 🌗 **Light & dark mode** | Warm, food-inspired theme in both modes |
 
-2. Start the app
+## How the health engine works
 
-   ```bash
-   npx expo start
-   ```
+1. `src/data/ingredients.ts` holds the curated guide. Each entry lists the nutrients, the benefits
+   for kids and for adults, side effects, allergens, and cautions by group (`avoid`, `limit` or
+   `take care`).
+2. `src/lib/health.ts` matches each recipe ingredient to the guide entry with the **longest
+   whole-word keyword**, so "coconut milk" isn't counted as dairy and "eggplant" isn't counted as egg.
+3. It then combines everything into a report: a kids verdict (🌟 great / 🛠️ small tweaks /
+   ⚠️ needs changes) with practical tips, nutrients, benefits, allergens, and warnings by group.
 
-In the output, you'll find options to open the app in a
+> The health content is general information summarised from public guidance (WHO, NHS, CDC, FDA,
+> AAP). It is **not medical advice**, and the app says so on every health screen.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Project structure
 
-You can start developing by editing the files inside the **src/app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```
+src/
+  app/                 # Expo Router screens
+    (tabs)/            # Discover, Search, Kids, Saved, Shopping
+    recipe/[id].tsx    # Recipe detail: ingredients, method, health
+    cook/[id].tsx      # Cooking mode
+    ingredient/[id].tsx# Ingredient health guide
+    profile.tsx        # Household health profile
+  components/          # UI building blocks, health panel, cards, tabs
+  data/                # Ingredient guide, groups & allergens, kids' plan
+  lib/                 # TheMealDB client, health engine, timers, storage
+  store/               # Tiny persisted store (useSyncExternalStore + SQLite kv-store)
 ```
 
-This command will move the starter code to the **example** directory and create a blank **src/app** directory where you can start developing.
+## Run it
 
-### Other setup steps
+```bash
+npm install
+npx expo start
+```
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+Scan the QR code with **Expo Go** (Android or iOS), or press `w` to open it in a browser.
 
-## Learn more
+```bash
+npx expo lint      # lint
+npx tsc --noEmit   # typecheck
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+## Tech notes
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- **Expo Router** native tabs on iOS and Android, a custom bottom tab bar on web
+- **expo-sqlite/kv-store** for synchronous on-device storage (localStorage on web)
+- **expo-image** for cached, smoothly loading photos
+- **expo-keep-awake** keeps the screen on in cooking mode
+- No backend, no API keys: TheMealDB's free public endpoint

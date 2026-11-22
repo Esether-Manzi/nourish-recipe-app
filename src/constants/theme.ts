@@ -1,6 +1,5 @@
 /**
- * Below are the colors that are used in the app. The colors are defined in the light and dark mode.
- * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://unistyl.es/), etc.
+ * App-wide design tokens. Colors are defined for light and dark mode and read through `useTheme()`.
  */
 
 import '@/global.css';
@@ -9,18 +8,42 @@ import { Platform } from 'react-native';
 
 export const Colors = {
   light: {
-    text: '#000000',
-    background: '#ffffff',
-    backgroundElement: '#F0F0F3',
-    backgroundSelected: '#E0E1E6',
-    textSecondary: '#60646C',
+    text: '#1F1A17',
+    background: '#FFFBF7',
+    backgroundElement: '#F5EEE7',
+    backgroundSelected: '#EADFD4',
+    textSecondary: '#6E6259',
+    border: '#E6DBD0',
+    accent: '#D9481C',
+    accentSoft: '#FCE4D9',
+    onAccent: '#FFFFFF',
+    success: '#2F7D4A',
+    successSoft: '#DFF1E4',
+    warning: '#A86400',
+    warningSoft: '#FBEBCF',
+    danger: '#B3261E',
+    dangerSoft: '#F9DEDC',
+    info: '#2A62A8',
+    infoSoft: '#DDE8F6',
   },
   dark: {
-    text: '#ffffff',
-    background: '#000000',
-    backgroundElement: '#212225',
-    backgroundSelected: '#2E3135',
-    textSecondary: '#B0B4BA',
+    text: '#F6EFE9',
+    background: '#151210',
+    backgroundElement: '#231E1B',
+    backgroundSelected: '#332C27',
+    textSecondary: '#B8ACA2',
+    border: '#3A322C',
+    accent: '#FF7A4D',
+    accentSoft: '#4A2416',
+    onAccent: '#1A0D07',
+    success: '#7FD39A',
+    successSoft: '#1D3A26',
+    warning: '#F2B65A',
+    warningSoft: '#3E2C0F',
+    danger: '#F2867E',
+    dangerSoft: '#47201D',
+    info: '#8DB8F0',
+    infoSoft: '#1B2C42',
   },
 } as const;
 
@@ -59,6 +82,13 @@ export const Spacing = {
   four: 24,
   five: 32,
   six: 64,
+} as const;
+
+export const Radius = {
+  small: 8,
+  medium: 14,
+  large: 20,
+  pill: 999,
 } as const;
 
 export const BottomTabInset = Platform.select({ ios: 50, android: 80 }) ?? 0;
