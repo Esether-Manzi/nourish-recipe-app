@@ -2,6 +2,7 @@ import { Image } from 'expo-image';
 import { StyleSheet, View, type ImageStyle, type StyleProp } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
+import { getRecipePhoto } from '@/data/recipe-photos';
 import { useTheme } from '@/hooks/use-theme';
 import type { MealSummary } from '@/lib/mealdb';
 
@@ -9,19 +10,33 @@ type Size = 'small' | 'medium' | 'full';
 
 const EMOJI_SIZE: Record<Size, number> = { small: 34, medium: 56, full: 96 };
 
-/** A meal photo from TheMealDB, or an emoji tile for built-in recipes that have no photo. */
+/**
+ * A meal photo: from TheMealDB, a bundled photo for built-in recipes, or an emoji tile when a
+ * built-in recipe has no suitable photo.
+ */
 export function MealImage({
   meal,
   size,
   style,
 }: {
-  meal: Pick<MealSummary, 'thumb' | 'emoji'>;
+  meal: Pick<MealSummary, 'id' | 'thumb' | 'emoji'>;
   size: Size;
   style: StyleProp<ImageStyle>;
 }) {
   const theme = useTheme();
 
   if (!meal.thumb) {
+    const photo = getRecipePhoto(meal.id);
+    if (photo) {
+      return (
+        <Image
+          source={photo.source}
+          style={[style, { backgroundColor: theme.backgroundSelected }]}
+          contentFit="cover"
+          transition={150}
+        />
+      );
+    }
     const fontSize = EMOJI_SIZE[size];
     return (
       <View style={[style, styles.emojiTile, { backgroundColor: theme.warningSoft }]}>

@@ -13,6 +13,7 @@ import { Badge, Button, Card, Chip, EmptyView, ErrorView, LoadingView } from '@/
 import { PressableLink } from '@/components/pressable-link';
 import { Radius, Spacing } from '@/constants/theme';
 import { ALLERGENS } from '@/data/groups';
+import { getRecipePhoto } from '@/data/recipe-photos';
 import { useAsync } from '@/hooks/use-async';
 import { useTheme } from '@/hooks/use-theme';
 import { analyzeEveryday, EVERYDAY_LABEL, findAvailability, NO_OVEN_TIP } from '@/lib/everyday';
@@ -41,6 +42,7 @@ export default function RecipeScreen() {
   }
 
   const recipe = meal.data;
+  const photo = recipe.local ? getRecipePhoto(recipe.id) : null;
   const verdict = report.kids.verdict;
 
   return (
@@ -60,7 +62,19 @@ export default function RecipeScreen() {
         }}
       />
       <Screen inTabs={false} hasHeader>
-        <MealImage meal={recipe} size="full" style={styles.hero} />
+        <View style={{ gap: Spacing.one }}>
+          <MealImage meal={recipe} size="full" style={styles.hero} />
+          {photo ? (
+            <Pressable
+              onPress={() => WebBrowser.openBrowserAsync(photo.credit.page)}
+              accessibilityRole="link"
+              accessibilityLabel={`Photo credit: ${photo.credit.artist}, ${photo.credit.license}`}>
+              <ThemedText type="caption" themeColor="textSecondary" numberOfLines={2}>
+                📷 Photo: {photo.credit.artist} · {photo.credit.license} · Wikimedia Commons (resized)
+              </ThemedText>
+            </Pressable>
+          ) : null}
+        </View>
 
         <View style={{ gap: Spacing.two }}>
           <View style={styles.wrap}>
