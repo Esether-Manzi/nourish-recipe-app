@@ -38,6 +38,13 @@ export const TRAVEL_FOOD_TIPS = [
 
 /** A few welcoming notes for countries with built-in local collections. */
 export const COUNTRY_NOTES: Record<string, { tryThis: string; etiquette?: string }> = {
+  NG: {
+    tryThis: 'Puff-puff and chin chin from street vendors, meat pie from a bakery, and crunchy kuli kuli.',
+  },
+  GH: { tryThis: 'Plantain chips sold in bags at traffic lights and markets.' },
+  CM: { tryThis: 'Warm accra banana (banana fritters), often eaten with beans and pepper sauce.' },
+  ZA: { tryThis: 'Koeksisters, the syrupy plaited doughnuts sold at bakeries and markets.' },
+  KR: { tryThis: 'Yakgwa, the honey cookies served at holidays and with tea.' },
   UG: {
     tryThis:
       'A Rolex from a roadside stall, matooke with groundnut sauce, and chicken luwombo at a celebration.',

@@ -3,7 +3,7 @@
  * local recipes. The free test key "1" is public and needs no sign-up.
  */
 
-import { getLocalRecipe, LOCAL_RECIPES } from '@/data/local-recipes';
+import { getLocalRecipe, LOCAL_ONLY_CATEGORIES, LOCAL_RECIPES } from '@/data/local-recipes';
 
 const BASE_URL = 'https://www.themealdb.com/api/json/v1/1';
 
@@ -212,12 +212,19 @@ export async function filterByCountry(query: string, localArea?: string): Promis
 
 export async function getCategories(): Promise<Category[]> {
   const res = await get<{ categories: Record<string, string>[] | null }>('categories.php');
-  return (res.categories ?? []).map((c) => ({
+  const remote = (res.categories ?? []).map((c) => ({
     id: c.idCategory,
     name: c.strCategory,
     thumb: c.strCategoryThumb,
     description: c.strCategoryDescription,
   }));
+  const local = LOCAL_ONLY_CATEGORIES.filter((name) => !remote.some((c) => c.name === name)).map((name) => ({
+    id: `local-${name}`,
+    name,
+    thumb: '',
+    description: '',
+  }));
+  return [...remote, ...local];
 }
 
 export function ingredientImage(name: string) {

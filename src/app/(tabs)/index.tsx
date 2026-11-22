@@ -10,7 +10,7 @@ import { PressableLink } from '@/components/pressable-link';
 import { MaxContentWidth, Radius, Spacing } from '@/constants/theme';
 import { useAsync } from '@/hooks/use-async';
 import { useTheme } from '@/hooks/use-theme';
-import { LOCAL_RECIPES } from '@/data/local-recipes';
+import { AFRICAN_SNACK_RECIPES, UGANDA_RECIPES } from '@/data/local-recipes';
 import { analyzeEveryday, EVERYDAY_LABEL } from '@/lib/everyday';
 import { analyzeRecipe } from '@/lib/health';
 import {
@@ -150,8 +150,17 @@ export default function DiscoverScreen() {
       <View style={{ gap: Spacing.three }}>
         <SectionHeader title="🇺🇬 Home-style Ugandan" subtitle="Everyday market ingredients, simple steps" />
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.carousel}>
-          {LOCAL_RECIPES.map((r) => (
+          {UGANDA_RECIPES.map((r) => (
             <MealCard key={r.id} meal={toSummaryOf(r)} width={150} badge="🧺 Everyday" />
+          ))}
+        </ScrollView>
+      </View>
+
+      <View style={{ gap: Spacing.three }}>
+        <SectionHeader title="🌍 African snacks" subtitle="Chin chin, puff-puff, koeksisters and more" />
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.carousel}>
+          {AFRICAN_SNACK_RECIPES.map((r) => (
+            <MealCard key={r.id} meal={toSummaryOf(r)} width={150} />
           ))}
         </ScrollView>
       </View>

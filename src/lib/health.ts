@@ -17,7 +17,7 @@ import type { RecipeIngredient } from '@/lib/mealdb';
 
 /** Ingredients with no meaningful health impact in recipe amounts; skipped rather than "unknown". */
 const NEUTRAL =
-  /^(pepper|salt and pepper|seasoning|starch|ice cubes?|soda water)$|water$|baking powder|bicarbonate|baking soda|yeast|vanilla|gelatin|food colou?ring|extract|essence|rose water|orange blossom water/;
+  /^(pepper|salt and pepper|seasoning|starch|ice|ice cubes?|shaved ice|crushed ice|soda water)$|water$|baking powder|bicarbonate|baking soda|yeast|vanilla|gelatin|food colou?ring|extract|essence|rose water|orange blossom water/;
 
 export const isNeutralIngredient = (name: string) => NEUTRAL.test(normalizeIngredient(name));
 
