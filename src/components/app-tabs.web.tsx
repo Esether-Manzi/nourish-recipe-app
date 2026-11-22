@@ -15,9 +15,9 @@ import { useTheme } from '@/hooks/use-theme';
 const TABS = [
   { name: 'index', href: '/', label: 'Discover', emoji: '🍽️' },
   { name: 'search', href: '/search', label: 'Search', emoji: '🔎' },
+  { name: 'world', href: '/world', label: 'World', emoji: '🌍' },
   { name: 'kids', href: '/kids', label: 'Kids', emoji: '🧒' },
-  { name: 'saved', href: '/saved', label: 'Saved', emoji: '♥' },
-  { name: 'shopping', href: '/shopping', label: 'Shopping', emoji: '🛒' },
+  { name: 'kitchen', href: '/kitchen', label: 'My kitchen', emoji: '♥' },
 ] as const;
 
 export default function AppTabs() {

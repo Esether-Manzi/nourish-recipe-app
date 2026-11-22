@@ -2,19 +2,18 @@ import { router } from 'expo-router';
 import { Pressable, View } from 'react-native';
 
 import { MealRow } from '@/components/meal-card';
-import { Screen } from '@/components/screen';
 import { ThemedText } from '@/components/themed-text';
 import { Button, EmptyView } from '@/components/ui';
 import { Spacing } from '@/constants/theme';
 import { toggleFavorite, useAppStore } from '@/store/app-store';
 
-export default function SavedScreen() {
+/** Saved (favourite) recipes. Rendered inside the My kitchen tab. */
+export function SavedList() {
   const favorites = useAppStore((s) => s.favorites);
 
   return (
-    <Screen>
+    <>
       <View style={{ gap: Spacing.one }}>
-        <ThemedText type="title">Saved</ThemedText>
         <ThemedText type="small" themeColor="textSecondary">
           {favorites.length
             ? `${favorites.length} recipe${favorites.length === 1 ? '' : 's'} saved on this device`
@@ -49,6 +48,6 @@ export default function SavedScreen() {
           action={<Button label="Discover recipes" onPress={() => router.navigate('/')} />}
         />
       )}
-    </Screen>
+    </>
   );
 }

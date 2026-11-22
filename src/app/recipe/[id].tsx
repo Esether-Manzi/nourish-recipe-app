@@ -4,15 +4,18 @@ import * as WebBrowser from 'expo-web-browser';
 import { useMemo, useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 
+import { EVERYDAY_TONE, EverydayCard } from '@/components/everyday-card';
 import { HealthPanel, ProfileAlerts } from '@/components/health-panel';
+import { MealImage } from '@/components/meal-image';
 import { Screen } from '@/components/screen';
 import { ThemedText } from '@/components/themed-text';
-import { Badge, Button, Chip, EmptyView, ErrorView, LoadingView } from '@/components/ui';
+import { Badge, Button, Card, Chip, EmptyView, ErrorView, LoadingView } from '@/components/ui';
 import { PressableLink } from '@/components/pressable-link';
 import { Radius, Spacing } from '@/constants/theme';
 import { ALLERGENS } from '@/data/groups';
 import { useAsync } from '@/hooks/use-async';
 import { useTheme } from '@/hooks/use-theme';
+import { analyzeEveryday, EVERYDAY_LABEL, findAvailability, NO_OVEN_TIP } from '@/lib/everyday';
 import { analyzeRecipe, findIngredientInfo } from '@/lib/health';
 import { getMeal, ingredientImage } from '@/lib/mealdb';
 import { addRecipeToShopping, toggleFavorite, useIsFavorite, useIsInShopping } from '@/store/app-store';
@@ -27,10 +30,11 @@ export default function RecipeScreen() {
   const isFavorite = useIsFavorite(id);
   const inShopping = useIsInShopping(id);
   const report = useMemo(() => (meal.data ? analyzeRecipe(meal.data.ingredients) : null), [meal.data]);
+  const everyday = useMemo(() => (meal.data ? analyzeEveryday(meal.data) : null), [meal.data]);
 
   if (meal.status === 'loading' && !meal.data) return <LoadingView label="Loading recipe…" />;
   if (meal.status === 'error') return <ErrorView message={meal.error.message} onRetry={meal.reload} />;
-  if (!meal.data || !report) {
+  if (!meal.data || !report || !everyday) {
     return (
       <EmptyView emoji="🤷" title="Recipe not found" message="It may have been removed from TheMealDB." />
     );
@@ -56,12 +60,17 @@ export default function RecipeScreen() {
         }}
       />
       <Screen inTabs={false} hasHeader>
-        <Image source={{ uri: recipe.thumb }} style={styles.hero} contentFit="cover" transition={250} />
+        <MealImage meal={recipe} size="full" style={styles.hero} />
 
         <View style={{ gap: Spacing.two }}>
           <View style={styles.wrap}>
             {recipe.category ? <Badge label={recipe.category} tone="accent" /> : null}
             {recipe.area ? <Badge label={recipe.area} /> : null}
+            <Badge
+              label={EVERYDAY_LABEL[everyday.level].short}
+              emoji={EVERYDAY_LABEL[everyday.level].emoji}
+              tone={EVERYDAY_TONE[everyday.level]}
+            />
             <Badge
               label={
                 verdict === 'great'
@@ -81,6 +90,7 @@ export default function RecipeScreen() {
               ? ` · Contains ${report.allergens.map((a) => ALLERGENS[a.id].label.toLowerCase()).join(', ')}`
               : ''}
           </ThemedText>
+          {recipe.about ? <ThemedText>{recipe.about}</ThemedText> : null}
         </View>
 
         <View style={styles.actions}>
@@ -119,8 +129,13 @@ export default function RecipeScreen() {
 
         {tab === 'ingredients' ? (
           <View style={{ gap: Spacing.one }}>
+            <EverydayCard report={everyday} />
             {recipe.ingredients.map((ing, index) => {
               const info = findIngredientInfo(ing.name);
+              const swap =
+                findAvailability(ing.name)?.tier === 'specialty'
+                  ? findAvailability(ing.name)?.swap
+                  : undefined;
               const row = (
                 <View style={[styles.ingredient, { borderBottomColor: theme.border }]}>
                   <Image
@@ -132,6 +147,11 @@ export default function RecipeScreen() {
                     <ThemedText type="small" style={{ textTransform: 'capitalize' }}>
                       {ing.name}
                     </ThemedText>
+                    {swap ? (
+                      <ThemedText type="caption" themeColor="warning">
+                        🔁 Swap: {swap}
+                      </ThemedText>
+                    ) : null}
                     {info ? (
                       <ThemedText type="caption" themeColor="accent">
                         {info.emoji} Health guide ›
@@ -158,6 +178,14 @@ export default function RecipeScreen() {
 
         {tab === 'method' ? (
           <View style={{ gap: Spacing.three }}>
+            {everyday.needsOven ? (
+              <Card tone="warning">
+                <ThemedText type="smallBold" themeColor="warning">
+                  🔥 Cooking without an oven
+                </ThemedText>
+                <ThemedText type="small">{NO_OVEN_TIP}</ThemedText>
+              </Card>
+            ) : null}
             {recipe.steps.map((step, i) => (
               <View key={i} style={styles.step}>
                 <View style={[styles.stepNumber, { backgroundColor: theme.accentSoft }]}>

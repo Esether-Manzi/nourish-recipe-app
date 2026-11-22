@@ -39,6 +39,8 @@ export function toggleFavorite(meal: MealSummary) {
       thumb: meal.thumb,
       category: meal.category,
       area: meal.area,
+      emoji: meal.emoji,
+      local: meal.local,
     };
     return {
       ...s,

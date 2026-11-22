@@ -23,22 +23,19 @@ export default function AppTabs() {
         <NativeTabs.Trigger.Icon sf="magnifyingglass" md="search" />
       </NativeTabs.Trigger>
 
+      <NativeTabs.Trigger name="world">
+        <NativeTabs.Trigger.Label>World</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon sf="globe" md="public" />
+      </NativeTabs.Trigger>
+
       <NativeTabs.Trigger name="kids">
         <NativeTabs.Trigger.Label>Kids</NativeTabs.Trigger.Label>
-        <NativeTabs.Trigger.Icon
-          sf={{ default: 'figure.and.child.holdinghands', selected: 'figure.and.child.holdinghands' }}
-          md="child_care"
-        />
+        <NativeTabs.Trigger.Icon sf="figure.and.child.holdinghands" md="child_care" />
       </NativeTabs.Trigger>
 
-      <NativeTabs.Trigger name="saved">
-        <NativeTabs.Trigger.Label>Saved</NativeTabs.Trigger.Label>
-        <NativeTabs.Trigger.Icon sf={{ default: 'heart', selected: 'heart.fill' }} md="favorite" />
-      </NativeTabs.Trigger>
-
-      <NativeTabs.Trigger name="shopping">
-        <NativeTabs.Trigger.Label>Shopping</NativeTabs.Trigger.Label>
-        <NativeTabs.Trigger.Icon sf={{ default: 'cart', selected: 'cart.fill' }} md="shopping_cart" />
+      <NativeTabs.Trigger name="kitchen">
+        <NativeTabs.Trigger.Label>My kitchen</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon sf={{ default: 'heart', selected: 'heart.fill' }} md="kitchen" />
       </NativeTabs.Trigger>
     </NativeTabs>
   );

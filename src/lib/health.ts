@@ -12,41 +12,19 @@ import {
   type GroupId,
 } from '@/data/groups';
 import { INGREDIENTS, type IngredientInfo } from '@/data/ingredients';
+import { createKeywordMatcher, normalizeIngredient } from '@/lib/keyword-match';
 import type { RecipeIngredient } from '@/lib/mealdb';
-
-const normalize = (text: string) =>
-  text
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
-    .toLowerCase()
-    .replace(/[^a-z0-9' -]/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
-
-const escapeRegex = (text: string) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-
-/** Every keyword in the guide, longest first, so more specific matches win. */
-const KEYWORDS = INGREDIENTS.flatMap((info) =>
-  info.match.map((keyword) => {
-    const key = normalize(keyword);
-    return { info, length: key.length, regex: new RegExp(`(^|\\s)${escapeRegex(key)}(s|es)?(?=\\s|$)`) };
-  }),
-).sort((a, b) => b.length - a.length);
 
 /** Ingredients with no meaningful health impact in recipe amounts; skipped rather than "unknown". */
 const NEUTRAL =
   /^(pepper|salt and pepper|seasoning|starch|ice cubes?|soda water)$|water$|baking powder|bicarbonate|baking soda|yeast|vanilla|gelatin|food colou?ring|extract|essence|rose water|orange blossom water/;
 
-export const isNeutralIngredient = (name: string) => NEUTRAL.test(normalize(name));
+export const isNeutralIngredient = (name: string) => NEUTRAL.test(normalizeIngredient(name));
 
-const matchCache = new Map<string, IngredientInfo | null>();
+const matchInfo = createKeywordMatcher(INGREDIENTS, (info) => info.match);
 
 export function findIngredientInfo(name: string): IngredientInfo | null {
-  const key = normalize(name);
-  if (matchCache.has(key)) return matchCache.get(key)!;
-  const found = KEYWORDS.find((k) => k.regex.test(key))?.info ?? null;
-  matchCache.set(key, found);
-  return found;
+  return matchInfo(name);
 }
 
 export type GroupWarning = {

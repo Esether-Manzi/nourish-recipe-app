@@ -1,7 +1,7 @@
-import { Image } from 'expo-image';
 import { StyleSheet, View } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
+import { MealImage } from '@/components/meal-image';
 import { PressableLink } from '@/components/pressable-link';
 import { Radius, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
@@ -10,7 +10,7 @@ import type { MealSummary } from '@/lib/mealdb';
 const meta = (meal: MealSummary) => [meal.category, meal.area].filter(Boolean).join(' · ');
 
 /** Image-first card used in grids and carousels. */
-export function MealCard({ meal, width }: { meal: MealSummary; width?: number }) {
+export function MealCard({ meal, width, badge }: { meal: MealSummary; width?: number; badge?: string }) {
   const theme = useTheme();
   return (
     <PressableLink
@@ -21,14 +21,14 @@ export function MealCard({ meal, width }: { meal: MealSummary; width?: number })
         width ? { width } : { flex: 1 },
         { opacity: pressed ? 0.85 : 1 },
       ]}>
-      <Image
-        source={{ uri: `${meal.thumb}/medium` }}
-        placeholder={{ uri: `${meal.thumb}/small` }}
-        placeholderContentFit="cover"
-        style={[styles.image, { backgroundColor: theme.backgroundSelected }]}
-        contentFit="cover"
-        transition={200}
-      />
+      <View>
+        <MealImage meal={meal} size="medium" style={styles.image} />
+        {badge || meal.local ? (
+          <View style={[styles.badge, { backgroundColor: theme.background }]}>
+            <ThemedText type="caption">{badge ?? '🏠 Home-style'}</ThemedText>
+          </View>
+        ) : null}
+      </View>
       <ThemedText type="smallBold" numberOfLines={2}>
         {meal.name}
       </ThemedText>
@@ -62,12 +62,7 @@ export function MealRow({
         styles.row,
         { backgroundColor: theme.backgroundElement, opacity: pressed ? 0.85 : 1 },
       ]}>
-      <Image
-        source={meal.thumb ? { uri: `${meal.thumb}/small` } : null}
-        style={[styles.rowImage, { backgroundColor: theme.backgroundSelected }]}
-        contentFit="cover"
-        transition={150}
-      />
+      <MealImage meal={meal} size="small" style={styles.rowImage} />
       <View style={{ flex: 1, gap: 2 }}>
         {overline ? (
           <ThemedText type="caption" themeColor="accent" style={styles.overline}>
@@ -97,6 +92,14 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     borderRadius: Radius.large,
     marginBottom: Spacing.one,
+  },
+  badge: {
+    position: 'absolute',
+    top: Spacing.two,
+    left: Spacing.two,
+    paddingHorizontal: Spacing.two,
+    paddingVertical: 2,
+    borderRadius: Radius.pill,
   },
   row: {
     flexDirection: 'row',

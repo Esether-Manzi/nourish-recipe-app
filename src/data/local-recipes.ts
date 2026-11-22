@@ -1,0 +1,350 @@
+/**
+ * Built-in home-style recipes for countries TheMealDB doesn't cover yet, starting with Uganda.
+ * Written for ordinary household kitchens: local market ingredients, cups and spoons, and steps
+ * that work on a charcoal stove (sigiri) or a single burner. Serves about 4 unless noted.
+ */
+
+import type { Meal } from '@/lib/mealdb';
+
+type LocalRecipe = Omit<Meal, 'steps' | 'instructions' | 'thumb'> & {
+  emoji: string;
+  about: string;
+  stepsList: string[];
+};
+
+const ug = (r: LocalRecipe): Meal => ({
+  ...r,
+  thumb: '',
+  steps: r.stepsList,
+  instructions: r.stepsList.join('\n'),
+  local: true,
+});
+
+export const LOCAL_RECIPES: Meal[] = [
+  ug({
+    id: 'ug-rolex',
+    name: 'Rolex (Chapati Egg Roll)',
+    emoji: '🌯',
+    category: 'Breakfast',
+    area: 'Ugandan',
+    tags: ['Street food', 'Quick', 'Budget'],
+    about:
+      'Uganda’s favourite street breakfast: an omelette full of vegetables, rolled in a chapati. The name comes from “rolled eggs”.',
+    ingredients: [
+      { name: 'Chapati', measure: '1' },
+      { name: 'Eggs', measure: '2' },
+      { name: 'Cabbage', measure: '1 handful, finely shredded' },
+      { name: 'Tomato', measure: '1 small, chopped' },
+      { name: 'Onion', measure: '½ small, chopped' },
+      { name: 'Green pepper', measure: '¼, chopped (optional)' },
+      { name: 'Salt', measure: 'a pinch' },
+      { name: 'Vegetable oil', measure: '1 tbsp' },
+    ],
+    stepsList: [
+      'Chop the cabbage, tomato, onion and green pepper as finely as you can.',
+      'Beat the eggs in a cup or bowl with a pinch of salt, then mix in the chopped vegetables.',
+      'Heat the oil in a frying pan over medium heat. Pour in the egg mixture and spread it out to roughly the size of the chapati.',
+      'When the egg is almost set (about 2 minutes), lay the chapati on top and press it down gently so it sticks.',
+      'Flip everything over and cook for 30 seconds to warm the chapati.',
+      'Slide it out with the egg side up, roll it up tightly, and eat it warm. Wrap it in paper to take away.',
+    ],
+  }),
+  ug({
+    id: 'ug-chapati',
+    name: 'Soft Layered Chapati',
+    emoji: '🫓',
+    category: 'Side',
+    area: 'Ugandan',
+    tags: ['Bread', 'Budget', 'No oven'],
+    about:
+      'Soft, flaky flatbread cooked in a pan — eaten with beans, tea, or rolled into a Rolex. Makes about 8.',
+    ingredients: [
+      { name: 'Wheat flour', measure: '3 cups' },
+      { name: 'Salt', measure: '1 tsp' },
+      { name: 'Sugar', measure: '1 tsp (optional)' },
+      { name: 'Vegetable oil', measure: '4 tbsp, plus extra for frying' },
+      { name: 'Warm water', measure: 'about 1 cup' },
+    ],
+    stepsList: [
+      'Mix the flour, salt and sugar in a bowl. Add 2 tbsp oil and rub it into the flour with your fingers.',
+      'Add the warm water a little at a time and mix into a soft dough. Knead for about 10 minutes until smooth and stretchy.',
+      'Cover the dough and let it rest for 20 minutes.',
+      'Divide into 8 balls. Roll each one out thin, brush with oil, then roll it up like a rope and coil it into a snail shape. This makes the layers.',
+      'Rest the coils for 10 minutes, then roll each one flat again, about the size of a plate.',
+      'Cook in a hot dry pan for 1 minute on each side, then brush with a little oil and fry until golden spots appear on both sides.',
+      'Keep the cooked chapatis stacked under a cloth so they stay soft.',
+    ],
+  }),
+  ug({
+    id: 'ug-kikomando',
+    name: 'Kikomando (Chapati & Beans)',
+    emoji: '🫘',
+    category: 'Vegetarian',
+    area: 'Ugandan',
+    tags: ['Budget', 'Quick', 'Student favourite'],
+    about:
+      'Chopped chapati served with a thick bean stew. Filling, cheap and full of protein — a student and worker favourite.',
+    ingredients: [
+      { name: 'Chapati', measure: '2' },
+      { name: 'Cooked beans', measure: '2 cups' },
+      { name: 'Onion', measure: '1, chopped' },
+      { name: 'Tomatoes', measure: '2, chopped' },
+      { name: 'Vegetable oil', measure: '2 tbsp' },
+      { name: 'Curry powder', measure: '½ tsp (optional)' },
+      { name: 'Salt', measure: 'to taste' },
+    ],
+    stepsList: [
+      'Fry the onion in the oil until soft and golden, about 5 minutes.',
+      'Add the tomatoes and curry powder and cook until they break down into a sauce, about 5 minutes.',
+      'Add the cooked beans and half a cup of water. Simmer for 10 minutes, mashing a few beans against the pot to thicken the stew.',
+      'Season with salt.',
+      'Cut the chapatis into small squares or strips and serve the hot beans on top.',
+    ],
+  }),
+  ug({
+    id: 'ug-katogo',
+    name: 'Katogo (Matooke & Beans)',
+    emoji: '🍌',
+    category: 'Breakfast',
+    area: 'Ugandan',
+    tags: ['Breakfast', 'One pot', 'Budget'],
+    about:
+      'A hearty one-pot breakfast of green bananas cooked in a tomato and bean sauce. Popular variations use offals or groundnut sauce.',
+    ingredients: [
+      { name: 'Matooke', measure: '6 fingers, peeled' },
+      { name: 'Cooked beans', measure: '1½ cups' },
+      { name: 'Onion', measure: '1, chopped' },
+      { name: 'Tomatoes', measure: '2, chopped' },
+      { name: 'Vegetable oil', measure: '2 tbsp' },
+      { name: 'Curry powder', measure: '½ tsp (optional)' },
+      { name: 'Salt', measure: 'to taste' },
+      { name: 'Water', measure: 'about 2 cups' },
+    ],
+    stepsList: [
+      'Peel the matooke (rub a little oil on your hands first, because the sap is sticky) and cut each finger into 2–3 pieces.',
+      'Fry the onion in the oil until soft, then add the tomatoes and curry powder and cook into a sauce.',
+      'Add the matooke, salt and enough water to just cover. Cover and cook for about 20 minutes, until the matooke is soft.',
+      'Add the beans and simmer uncovered for 10 minutes, until the sauce is thick.',
+      'Serve hot.',
+    ],
+  }),
+  ug({
+    id: 'ug-matooke-binyebwa',
+    name: 'Matooke with Groundnut Sauce',
+    emoji: '🥜',
+    category: 'Vegetarian',
+    area: 'Ugandan',
+    tags: ['Classic', 'Sunday lunch'],
+    about:
+      'Steamed, mashed green bananas with a rich, slow-cooked groundnut (peanut) sauce called binyebwa — a central Ugandan classic.',
+    ingredients: [
+      { name: 'Matooke', measure: '10 fingers, peeled' },
+      { name: 'Groundnut paste', measure: '1 cup' },
+      { name: 'Onion', measure: '1, chopped' },
+      { name: 'Tomatoes', measure: '2, chopped' },
+      { name: 'Salt', measure: 'to taste' },
+      { name: 'Water', measure: '3 cups' },
+      { name: 'Smoked fish', measure: '1 piece (optional)' },
+    ],
+    stepsList: [
+      'Wrap the peeled matooke in banana leaves (if you have them) and steam over a little water in a covered pot for 30–40 minutes, until very soft. Without leaves, boil them in a little water instead.',
+      'While still hot, squeeze and mash the matooke inside the leaves into a smooth, soft mound. Keep it covered and warm.',
+      'For the sauce, mix the groundnut paste with 1 cup of water into a smooth, runny paste.',
+      'Boil the onion and tomatoes in 2 cups of water for 5 minutes, then stir in the groundnut mixture (and smoked fish if using).',
+      'Simmer gently on low heat for 20–30 minutes, stirring often so it doesn’t stick, until it thickens and a little oil shows on top.',
+      'Season with salt and serve the sauce over the matooke.',
+    ],
+  }),
+  ug({
+    id: 'ug-beans-posho',
+    name: 'Beans and Posho',
+    emoji: '🍲',
+    category: 'Vegetarian',
+    area: 'Ugandan',
+    tags: ['Budget', 'Everyday', 'School lunch'],
+    about:
+      'The everyday meal of schools and homes across Uganda: stiff maize porridge (posho) with a savoury bean stew.',
+    ingredients: [
+      { name: 'Dried beans', measure: '2 cups' },
+      { name: 'Onion', measure: '1, chopped' },
+      { name: 'Tomatoes', measure: '2, chopped' },
+      { name: 'Vegetable oil', measure: '2 tbsp' },
+      { name: 'Curry powder', measure: '½ tsp (optional)' },
+      { name: 'Salt', measure: 'to taste' },
+      { name: 'Maize flour', measure: '2 cups' },
+      { name: 'Water', measure: '4 cups for posho, plus water for beans' },
+    ],
+    stepsList: [
+      'Soak the beans overnight. Drain, cover with fresh water and boil hard for 10 minutes, then simmer for 1–1½ hours until soft. Keep them covered with water.',
+      'In another pan, fry the onion in oil until golden, add the tomatoes and curry powder and cook to a sauce.',
+      'Add the sauce to the beans with salt and simmer for 15 minutes until thick.',
+      'For the posho, bring 4 cups of water to the boil. Sprinkle in the maize flour slowly while stirring hard with a wooden spoon.',
+      'Keep stirring and pressing the dough against the side of the pot for 5–8 minutes, until it is thick and pulls away from the pot.',
+      'Cover and leave on very low heat for 2 minutes, then shape into a mound and serve with the beans.',
+    ],
+  }),
+  ug({
+    id: 'ug-luwombo',
+    name: 'Chicken Luwombo',
+    emoji: '🍃',
+    category: 'Chicken',
+    area: 'Ugandan',
+    tags: ['Celebration', 'Steamed', 'No oven'],
+    about:
+      'A royal Buganda dish: chicken stewed slowly in banana-leaf parcels, which keep it juicy and full of flavour. Made for celebrations.',
+    ingredients: [
+      { name: 'Chicken', measure: '1, cut into pieces' },
+      { name: 'Onions', measure: '2, chopped' },
+      { name: 'Tomatoes', measure: '3, chopped' },
+      { name: 'Groundnut paste', measure: '½ cup (optional)' },
+      { name: 'Curry powder', measure: '1 tsp' },
+      { name: 'Salt', measure: 'to taste' },
+      { name: 'Banana leaves', measure: '4–6 large' },
+      { name: 'Water', measure: 'as needed' },
+    ],
+    stepsList: [
+      'Pass the banana leaves quickly over a flame or hot charcoal until they turn shiny and soft, so they fold without tearing.',
+      'In a bowl, mix the chicken with the onions, tomatoes, curry powder and salt. If using groundnut paste, thin it with half a cup of water and stir it in.',
+      'Place a portion of the chicken mixture in the centre of a leaf, gather the edges up into a pouch and tie the top with banana fibre or string.',
+      'Put a few leaf stalks or leaves in the bottom of a large pot with about 2 cups of water, then sit the parcels on top.',
+      'Cover tightly and steam on low heat for 1½–2 hours, adding a little water now and then so the pot never dries out.',
+      'Serve each person a parcel to open at the table, with matooke, rice or posho.',
+    ],
+  }),
+  ug({
+    id: 'ug-malakwang',
+    name: 'Malakwang (Sour Greens in Groundnut Sauce)',
+    emoji: '🌿',
+    category: 'Vegetarian',
+    area: 'Ugandan',
+    tags: ['Northern Uganda', 'Acholi', 'Vegetarian'],
+    about:
+      'A tangy Acholi dish from northern Uganda: sour malakwang leaves simmered in groundnut paste and served with sweet potatoes or millet bread.',
+    ingredients: [
+      { name: 'Malakwang', measure: '2 bunches of leaves (or sorrel or other greens)' },
+      { name: 'Groundnut paste', measure: '½ cup' },
+      { name: 'Salt', measure: 'to taste' },
+      { name: 'Water', measure: '2 cups' },
+      { name: 'Lemon', measure: '½ (only if not using sour leaves)' },
+      { name: 'Sweet potatoes', measure: '4, to serve' },
+    ],
+    stepsList: [
+      'Pick the leaves off the stems, wash well and chop.',
+      'Boil the leaves in 1 cup of water for about 15 minutes, until soft.',
+      'Mix the groundnut paste with 1 cup of water until smooth, then stir it into the greens.',
+      'Simmer on low heat for 10–15 minutes, stirring often, until thick and creamy.',
+      'Season with salt. If you used ordinary greens, add a squeeze of lemon for the sour taste.',
+      'Meanwhile boil or roast the sweet potatoes, and serve them with the malakwang.',
+    ],
+  }),
+  ug({
+    id: 'ug-dodo',
+    name: 'Dodo (Amaranth Greens)',
+    emoji: '🥬',
+    category: 'Side',
+    area: 'Ugandan',
+    tags: ['Quick', 'Budget', 'Iron-rich'],
+    about:
+      'Quick-cooked amaranth leaves with tomato and onion — cheap, fast and packed with iron. Sukuma or spinach work too.',
+    ingredients: [
+      { name: 'Dodo', measure: '2 bunches (amaranth leaves)' },
+      { name: 'Onion', measure: '1, chopped' },
+      { name: 'Tomatoes', measure: '2, chopped' },
+      { name: 'Vegetable oil', measure: '1 tbsp' },
+      { name: 'Salt', measure: 'a pinch' },
+    ],
+    stepsList: [
+      'Pick the leaves off the thick stems, wash several times to remove grit and chop roughly.',
+      'Fry the onion in the oil until soft, then add the tomatoes and cook for 3 minutes.',
+      'Add the greens with a splash of water, cover and steam for 5–7 minutes, until just soft and still bright green.',
+      'Season lightly with salt. For a richer version, stir in 2 tbsp of groundnut paste mixed with a little water.',
+    ],
+  }),
+  ug({
+    id: 'ug-millet-porridge',
+    name: 'Millet Porridge (Obuuji)',
+    emoji: '🥣',
+    category: 'Breakfast',
+    area: 'Ugandan',
+    tags: ['Breakfast', 'Kids', 'Budget'],
+    about:
+      'Smooth, warming millet porridge — a traditional breakfast that keeps children full and gives them iron and energy.',
+    ingredients: [
+      { name: 'Millet flour', measure: '½ cup' },
+      { name: 'Water', measure: '3 cups' },
+      { name: 'Milk', measure: '½ cup (optional)' },
+      { name: 'Sugar', measure: '1 tbsp (optional)' },
+      { name: 'Lemon', measure: 'a squeeze (optional)' },
+    ],
+    stepsList: [
+      'Mix the millet flour with 1 cup of cold water until smooth, with no lumps.',
+      'Bring the other 2 cups of water to the boil.',
+      'Pour in the millet paste while stirring all the time, so it doesn’t form lumps.',
+      'Simmer for 10 minutes, stirring often, until smooth and cooked.',
+      'Stir in the milk, sweeten lightly if you like, and add a squeeze of lemon for the traditional tangy taste. Skip the sugar for children under 2.',
+    ],
+  }),
+  ug({
+    id: 'ug-mukene',
+    name: 'Mukene (Silverfish) Stew',
+    emoji: '🐟',
+    category: 'Seafood',
+    area: 'Ugandan',
+    tags: ['Budget', 'Calcium-rich', 'Lake Victoria'],
+    about:
+      'Tiny silverfish from Lake Victoria, stewed in tomato sauce. One of the cheapest ways to get protein and calcium, since the bones are eaten.',
+    ingredients: [
+      { name: 'Mukene', measure: '2 cups, dried' },
+      { name: 'Onion', measure: '1, chopped' },
+      { name: 'Tomatoes', measure: '3, chopped' },
+      { name: 'Vegetable oil', measure: '2 tbsp' },
+      { name: 'Curry powder', measure: '½ tsp (optional)' },
+      { name: 'Groundnut paste', measure: '3 tbsp (optional)' },
+      { name: 'Salt', measure: 'to taste' },
+      { name: 'Water', measure: '1 cup' },
+    ],
+    stepsList: [
+      'Soak the mukene in warm water for 10 minutes, then rinse several times until there is no sand left.',
+      'Optional: dry-fry the fish in a pan for 3 minutes to reduce the strong smell.',
+      'Fry the onion in oil until golden, add the tomatoes and curry powder and cook into a thick sauce.',
+      'Add the mukene and the water and simmer for 10–15 minutes.',
+      'For a creamy version, stir in the groundnut paste mixed with a little water and simmer 10 minutes more.',
+      'Season with salt and serve with posho, matooke or sweet potatoes.',
+    ],
+  }),
+  ug({
+    id: 'ug-pilau',
+    name: 'Ugandan Beef Pilau',
+    emoji: '🍛',
+    category: 'Beef',
+    area: 'Ugandan',
+    tags: ['Celebration', 'One pot'],
+    about:
+      'Spiced rice cooked in meat broth — served at weddings, Eid and family gatherings. Browning the onions well gives it its colour.',
+    ingredients: [
+      { name: 'Rice', measure: '2 cups' },
+      { name: 'Beef', measure: '500 g, cubed (or chicken)' },
+      { name: 'Onions', measure: '2, sliced' },
+      { name: 'Garlic', measure: '3 cloves, crushed' },
+      { name: 'Ginger', measure: '1 thumb, crushed' },
+      { name: 'Pilau masala', measure: '1 tbsp' },
+      { name: 'Vegetable oil', measure: '3 tbsp' },
+      { name: 'Potatoes', measure: '2, cubed (optional)' },
+      { name: 'Salt', measure: 'to taste' },
+      { name: 'Water', measure: 'about 6 cups' },
+    ],
+    stepsList: [
+      'Boil the beef in about 6 cups of water with salt and half the garlic and ginger for about 1 hour, until tender. Keep the broth.',
+      'Wash the rice and leave it to drain.',
+      'In a large pot, fry the onions in oil, stirring, until deep golden brown. This gives the pilau its colour.',
+      'Add the rest of the garlic and ginger and the pilau masala, and fry for 1 minute until fragrant.',
+      'Add the beef (and potatoes), then the rice, and stir for 2 minutes to coat everything in the spices.',
+      'Pour in 4 cups of hot broth and add salt. Bring to the boil, then cover tightly and cook on very low heat for about 20 minutes, until the rice is soft.',
+      'Fluff with a fork and serve with kachumbari (tomato and onion salad).',
+    ],
+  }),
+];
+
+const LOCAL_BY_ID = new Map(LOCAL_RECIPES.map((r) => [r.id, r]));
+
+export const getLocalRecipe = (id: string) => LOCAL_BY_ID.get(id) ?? null;

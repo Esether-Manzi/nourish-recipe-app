@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 
-import { Screen } from '@/components/screen';
 import { ThemedText } from '@/components/themed-text';
 import { Button, Card, EmptyView } from '@/components/ui';
 import { PressableLink } from '@/components/pressable-link';
@@ -15,7 +14,8 @@ import {
   type ShoppingItem,
 } from '@/store/app-store';
 
-export default function ShoppingScreen() {
+/** The shopping list, grouped by recipe. Rendered inside the My kitchen tab. */
+export function ShoppingList() {
   const theme = useTheme();
   const items = useAppStore((s) => s.shopping);
 
@@ -36,9 +36,8 @@ export default function ShoppingScreen() {
   const checkedCount = items.filter((i) => i.checked).length;
 
   return (
-    <Screen>
+    <>
       <View style={{ gap: Spacing.one }}>
-        <ThemedText type="title">Shopping list</ThemedText>
         <ThemedText type="small" themeColor="textSecondary">
           {items.length
             ? `${items.length - checkedCount} of ${items.length} items left`
@@ -121,7 +120,7 @@ export default function ShoppingScreen() {
           message="Open a recipe and tap “Add to list” to collect its ingredients here."
         />
       )}
-    </Screen>
+    </>
   );
 }
 
